@@ -1,0 +1,79 @@
+/* @font-face {
+  font-family: 'OpenSans';
+  src: url('../..fonts/OpenSans-VariableFont_wdth,wght.ttf'), url('../../fonts/OpenSans-VariableFont_wdth,wght.ttf');
+  font-weight: normal;
+  font-style: normal;
+} */
+
+body {
+  margin: auto;
+  font-family: 'sans-serif';
+  width: 95%;
+  background-color: #E4E4DE;
+}
+
+input{
+  padding: 7px;
+  border: 1px solid #1B1B1B;
+  border-radius: 5px;
+}
+
+input:focus{
+  border-color: #1B1B1B;
+  outline: 0;
+  background-color: #f4f4f4
+}
+
+#upload{
+  padding: 0 15px;
+  box-shadow: 5px 7px #1B1B1B;
+}
+
+#upload:hover{
+  cursor: pointer;
+}
+
+#file {
+  display: none;
+}
+
+#title{
+  margin-top: 20px;
+}
+
+#tool-bar{
+  margin: 20px 0 20px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+#photoGrid{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.photoFrame{
+  width: calc(50% - 14px);
+  min-width: 200px;
+  margin: 10px 5px 0px 5px;
+  border: 1.5px solid #1B1B1B;
+  border-radius: .5px;
+}
+
+.photo{
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+}
+
+.caption{
+  margin: 0 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.delete:hover{
+  cursor: pointer;
+}

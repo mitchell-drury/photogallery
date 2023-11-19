@@ -1,7 +1,8 @@
 import ReactDOM from "react-dom";
+import App from './App.js';
 
 function Index() {
-  return <h1>Hello, world!</h1>;
+  return <App />
 }
 
 ReactDOM.render(<Index />, document.getElementById("root"));
