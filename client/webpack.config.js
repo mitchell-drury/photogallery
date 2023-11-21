@@ -9,7 +9,7 @@ const hmrPlugins = dev ? ["webpack-hot-middleware/client"] : [];
 module.exports = {
   mode: process.env.NODE_ENV,
   devtool: dev ? "inline-source-map" : undefined,
-  entry: [...hmrPlugins, path.join(__dirname, "src", "index.js")],
+  entry: [...hmrPlugins, path.join(__dirname, "src", "index.tsx")],
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.[contenthash].js",
@@ -18,6 +18,11 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: '/node_modules'
+      },
       {
         test: /\.js|\.jsx$/,
         exclude: /node_modules/,
@@ -43,6 +48,9 @@ module.exports = {
         use: [ 'style-loader', 'css-loader'] 
       }
     ],
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js']
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

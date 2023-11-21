@@ -1,12 +1,10 @@
 import ReactDOM from "react-dom";
-import App from './App.js';
+import App from './App';
 
-function Index() {
+const Index: React.FC = () => {
   return <App />
 }
 
 ReactDOM.render(<Index />, document.getElementById("root"));
 
-if (module.hot) {
-  module.hot.accept();
-}
+

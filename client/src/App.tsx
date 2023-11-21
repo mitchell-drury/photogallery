@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 import './index.css';
 
-export default function App() {
+const App: React.FC = () => {
   const regex = /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i;
-  const [imagePaths, setImagePaths] = useState([]);
-  const [searchString, setSearchString] = useState('');
+  const [imagePaths, setImagePaths] = useState<string[]>([]);
+  const [searchString, setSearchString] = useState<string>('');
 
   //get any images that already exist on the server
-  useEffect(async () => {
+  useEffect(() => {
     fetch('http://localhost:3000/images')
         .then(res => {
             return res.json();
         })
-        .then(res => {
-            let images = res.filter(img => {
+        .then((res: string[]) => {
+            let images: string[] = res.filter(img => {
                 return /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i.test(img) === true
             }).map(img => {
                 let indexOf = img.lastIndexOf('/');
@@ -25,13 +25,13 @@ export default function App() {
   }, []);
 
   //just calls a click on the invisible file input
-  function handleUploadClick() {
-    document.getElementById('file').click();
+  const handleUploadClick = () => {
+    document.getElementById('file')?.click();
   }
-  function handleFileUpload(e) {
-    if (regex.test(e.target.value)) {
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.currentTarget.files) {
       const formData = new FormData();
-      [...e.target.files].forEach(file => {
+      Array.from(e.currentTarget.files).forEach(file => {
         formData.append('file', file);
       })
       fetch('http://localhost:3000/upload', {
@@ -48,11 +48,11 @@ export default function App() {
     }
   }
 
-  function handleSearch(e) {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchString(e.target.value.toLowerCase());
   }
 
-  function handleDelete(img) {
+  function handleDelete(img: string) {
     fetch('http://localhost:3000/delete', {
         method: 'POST',
         headers: {
@@ -63,7 +63,7 @@ export default function App() {
     .then(res => {
         if (res.status === 200) {
             let newImagePaths = [...imagePaths];
-            let index = newImagePaths.indexOf(img.img);
+            let index = newImagePaths.indexOf(img);
             if (index > -1) {
                 newImagePaths.splice(index, 1);
                 setImagePaths(newImagePaths);
@@ -74,13 +74,13 @@ export default function App() {
 
   const photoGrid = imagePaths.filter(img => {
     return img.toLowerCase().indexOf(searchString.trim()) > -1;
-    }).map((img, index) => {
+    }).map(img => {
       //chose to render images as background of div cus it handles resizing pretty easily
       return <div className="photoFrame" key={img}>
                 <div className="photo" style={{backgroundImage: `url(${encodeURIComponent(img)})` }}> </div>
                 <div className="caption">
                     <span>{img} </span>
-                    <span className="delete" onClick={() => handleDelete({img})}> Delete </span>
+                    <span className="delete" onClick={() => handleDelete(img)}> Delete </span>
                 </div>
             </div>
   });
@@ -96,8 +96,8 @@ export default function App() {
       </div>
       <div id="tool-bar">
         <input id="search" type="text" placeholder="search" onChange={handleSearch} />
-        <button id="upload" onClick={handleUploadClick}> Upload </button>
-        <input id="file" type="file" name="file" placeholder="Upload" multiple onChange={handleFileUpload} />
+        <button id="upload" onClick={() => handleUploadClick()}> Upload </button>
+        <input id="file" type="file" name="file" placeholder="Upload" multiple onChange={(e) => handleFileUpload(e)} />
       </div>
       <div>
         {imageCount}
@@ -108,3 +108,5 @@ export default function App() {
     </div>
   );
 }
+
+export default App;
